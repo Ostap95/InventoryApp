@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">InventoryApp</string>
+
+    <!-- Text that's displayed in action bar -->
+    <string name="add_product_activity_text">Add Product</string>
+
+    <string name="button_sale">SALE</string>
+
+    <string name="edittext_product_name_hint">Product Name</string>
+
+    <string name="action_save">Save</string>
+
+    <string name="edittext_quantity_hint">Quantity</string>
+
+    <string name="edittext_price_hint">Price</string>
+
+    <string name="edittext_supplier_name_hint">Supplier Name</string>
+
+    <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
+    <string name="empty_view_title_text">It\'s a bit lonely here...</string>
+
+    <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Get started by adding a product</string>
+
+</resources>

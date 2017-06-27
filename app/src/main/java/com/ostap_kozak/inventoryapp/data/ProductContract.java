@@ -55,6 +55,13 @@ public final class ProductContract {
         public final static String _ID = BaseColumns._ID;
 
         /**
+         * Picture of the image.
+         *
+         * Type: TEXT
+         */
+        public final static String COLUMN_PRODUCT_IMAGE ="image";
+
+        /**
          * Name of the product.
          *
          * Type: TEXT
@@ -81,6 +88,8 @@ public final class ProductContract {
          * Type: TEXT
          */
         public final static String COLUMN_PRODUCT_SUPPLIER ="supplier";
+
+
 
     }
 }

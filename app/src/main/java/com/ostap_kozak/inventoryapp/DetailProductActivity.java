@@ -9,20 +9,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 /**
  * Created by ostapkozak on 27/06/2017.
  */
 
-public class AddProductActivity extends AppCompatActivity{
+public class DetailProductActivity extends AppCompatActivity{
 
     private static int RESULT_LOAD_IMAGE = 1;
 
     private EditText editTextProductName, editTextProductQuantity, editTextProductPrice, editTextProductSupplier;
     private ImageView imageViewProductPicture;
+    String productPictureUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +37,7 @@ public class AddProductActivity extends AppCompatActivity{
         editTextProductSupplier = (EditText) findViewById(R.id.edittext_supplier_name);
         imageViewProductPicture = (ImageView) findViewById(R.id.imageview_product);
 
+        // Click listener that handles product picture selection
         imageViewProductPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,9 +52,11 @@ public class AddProductActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Handles the result from the gallery intent
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK){
             Uri imageUri = data.getData();
             imageViewProductPicture.setImageURI(imageUri);
+            productPictureUri = imageUri.toString();
 
         }
     }
@@ -82,5 +84,6 @@ public class AddProductActivity extends AppCompatActivity{
         int productQuantity = Integer.parseInt(editTextProductQuantity.getText().toString().trim());
         double productPrice = Double.parseDouble(editTextProductPrice.getText().toString().trim());
         String productSupplier = editTextProductSupplier.getText().toString().trim();
+
     }
 }

@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // Setup FAB to open AddProductActivity
+        // Setup FAB to open DetailProductActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddProductActivity.class);
+                Intent intent = new Intent(MainActivity.this, DetailProductActivity.class);
                 startActivity(intent);
             }
         });

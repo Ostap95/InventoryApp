@@ -36,19 +36,19 @@
             android:maxLines="1"/>
 
         <EditText
+            android:id="@+id/edittext_product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/edittext_price_hint"
+            android:maxLines="1"/>
+
+        <EditText
             android:id="@+id/edittext_product_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edittext_quantity_hint"
             android:maxLines="1"
             android:inputType="number" />
-
-        <EditText
-            android:id="@+id/edittext_product_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/edittext_price_hint"
-            android:maxLines="1"/>
 
         <EditText
             android:id="@+id/edittext_supplier_name"

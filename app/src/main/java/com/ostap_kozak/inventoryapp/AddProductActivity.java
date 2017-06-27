@@ -23,7 +23,6 @@ public class AddProductActivity extends AppCompatActivity{
 
     private EditText editTextProductName, editTextProductQuantity, editTextProductPrice, editTextProductSupplier;
     private ImageView imageViewProductPicture;
-    private ImageButton buttonAddPicture;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,10 +36,9 @@ public class AddProductActivity extends AppCompatActivity{
         editTextProductQuantity = (EditText) findViewById(R.id.edittext_product_quantity);
         editTextProductPrice = (EditText) findViewById(R.id.edittext_product_price);
         editTextProductSupplier = (EditText) findViewById(R.id.edittext_supplier_name);
-        imageViewProductPicture = (ImageView) findViewById(R.id.imageview_prodcut);
-        buttonAddPicture = (ImageButton) findViewById(R.id.button_add_picture);
+        imageViewProductPicture = (ImageView) findViewById(R.id.imageview_product);
 
-        buttonAddPicture.setOnClickListener(new View.OnClickListener() {
+        imageViewProductPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent gallery = new Intent(Intent.ACTION_GET_CONTENT);

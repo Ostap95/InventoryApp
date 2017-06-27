@@ -18,7 +18,8 @@
         
         <activity android:name=".AddProductActivity"
             android:label="@string/add_product_activity_text"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

@@ -80,7 +80,7 @@ public class ProductCursorAdapter extends CursorAdapter {
                     );
                     context.getContentResolver().notifyChange(currentProductUri, null);
                 } else {
-                    Toast.makeText(context, "Item out of stock", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.item_stock_warning, Toast.LENGTH_SHORT).show();
                 }
             }
         });

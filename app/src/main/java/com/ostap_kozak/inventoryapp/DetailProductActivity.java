@@ -1,13 +1,18 @@
 package com.ostap_kozak.inventoryapp;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
@@ -15,6 +20,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,13 +31,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ostap_kozak.inventoryapp.data.ProductContract.ProductEntry;
+
+import java.io.File;
 
 /**
  * Created by ostapkozak on 27/06/2017.
  */
 
 public class DetailProductActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
+    public static final int PICK_PHOTO_REQUEST = 20;
+    public static final int EXTERNAL_STORAGE_REQUEST_PERMISSION_CODE = 21;
 
     /** Identifier for the pet data loader */
     private static final int EXISTING_PRODUCT_LOADER = 0;
@@ -104,6 +116,9 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
         ImageButton imageButtonIncrementQuantity = (ImageButton) findViewById(R.id.imagebutton_increment_quantity);
         Button orderButton = (Button) findViewById(R.id.button_order);
 
+        // Sets default value for EditBoxes
+        editTextProductQuantity.setText("0");
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -117,9 +132,7 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
         imageViewProductPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_GET_CONTENT);
-                gallery.setType("image/*");
-                startActivityForResult(gallery, RESULT_LOAD_IMAGE);
+                onPhotoProductUpdate(v);
             }
         });
 
@@ -158,13 +171,63 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Handles the result from the gallery intent
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK){
-            Uri imageUri = data.getData();
-            imageViewProductPicture.setImageURI(imageUri);
-            productPictureUri = imageUri.toString();
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
+            if (data != null) {
+                //If we are here, everything processed successfully and we have an Uri data
+                Uri mProductPhotoUri = data.getData();
+                productPictureUri = mProductPhotoUri.toString();
+                Log.d("DAMN", "Selected images " + mProductPhotoUri);
 
+                //We use Glide to import photo images
+                Glide.with(this).load(mProductPhotoUri)
+                        .into(imageViewProductPicture);
+            }
         }
+    }
+
+    public void onPhotoProductUpdate(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //We are on M or above so we need to ask for runtime permissions
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                invokeGetPhoto();
+            } else {
+                // we are here if we do not all ready have permissions
+                String[] permisionRequest = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                requestPermissions(permisionRequest, EXTERNAL_STORAGE_REQUEST_PERMISSION_CODE);
+            }
+        } else {
+            //We are on an older devices so we dont have to ask for runtime permissions
+            invokeGetPhoto();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == EXTERNAL_STORAGE_REQUEST_PERMISSION_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //We got a GO from the user
+            invokeGetPhoto();
+        } else {
+            Toast.makeText(this, R.string.missing_permission_external_storage, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void invokeGetPhoto() {
+        // invoke the image gallery using an implict intent.
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+
+        // where do we want to find the data?
+        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String pictureDirectoryPath = pictureDirectory.getPath();
+        // finally, get a URI representation
+        Uri data = Uri.parse(pictureDirectoryPath);
+
+        // set the data and type.  Get all image types.
+        photoPickerIntent.setDataAndType(data, "image/*");
+
+        // we will invoke this activity, and get something back from it.
+        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
     }
 
     @Override
@@ -272,7 +335,9 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
         }
 
         // If name or supplier are empty, show toast. price, picture or quantity can be empty.
-        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(supplierString)) {
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(supplierString)
+                || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(priceString)
+                || TextUtils.isEmpty(pictureUriString)) {
             Toast.makeText(this, R.string.empty_fields_warning, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -374,7 +439,8 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
             if(TextUtils.isEmpty(imageUri)) {
                 imageViewProductPicture.setImageResource(R.mipmap.ic_launcher);
             } else {
-                imageViewProductPicture.setImageURI(Uri.parse(imageUri));
+                //Update photo using Glide
+                Glide.with(this).load(imageUri).into(imageViewProductPicture);
             }
 
             // Update the views on the screen with the values from the database

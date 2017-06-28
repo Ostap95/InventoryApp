@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.ostap_kozak.inventoryapp.data.ProductContract.ProductEntry;
 
 import com.ostap_kozak.inventoryapp.data.ProductContract;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     /** Identifier for the pet data loader */
     private static final int PRODUCT_LOADER = 0;
 
-    private ListView productListView;
     private ProductCursorAdapter mCursorAdapter;
 
     @Override
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        productListView = (ListView) findViewById(R.id.list);
+        ListView productListView = (ListView) findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // There is no product data yet (until the loader finishes) so pass in null for the Cursor.
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
+
 
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
-                ProductEntry.COLUMN_PRODUCT_PRICE };
+                ProductEntry.COLUMN_PRODUCT_PRICE,
+                ProductEntry.COLUMN_PRODUCT_QUANTITY };
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context

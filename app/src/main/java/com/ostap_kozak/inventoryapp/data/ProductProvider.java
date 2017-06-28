@@ -19,7 +19,7 @@ import android.util.Log;
 public class ProductProvider extends ContentProvider {
 
     /** Tag for the log messages */
-    public static final String LOG_TAG = ProductProvider.class.getSimpleName();
+    private static final String LOG_TAG = ProductProvider.class.getSimpleName();
 
     /** URI matcher code for the content URI for the products table */
     private static final int PRODUCTS = 100;
@@ -41,7 +41,7 @@ public class ProductProvider extends ContentProvider {
     }
 
     /** Database helper object */
-    ProductDbHelper productDbHelper;
+    private ProductDbHelper productDbHelper;
 
     @Override
     public boolean onCreate() {
@@ -56,7 +56,7 @@ public class ProductProvider extends ContentProvider {
         SQLiteDatabase db = productDbHelper.getReadableDatabase();
 
         // Cursor that holds the result of the query
-        Cursor cursor = null;
+        Cursor cursor;
 
         int match = sUriMatcher.match(uri);
         switch (match) {
@@ -71,6 +71,7 @@ public class ProductProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI: " + uri);
         }
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -184,7 +185,7 @@ public class ProductProvider extends ContentProvider {
             case PRODUCT_ID:
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return update(uri, values, selection, selectionArgs);
+                return updateProduct(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }

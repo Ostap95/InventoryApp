@@ -6,15 +6,7 @@
 
     <string name="button_sale">SALE</string>
 
-    <string name="edittext_product_name_hint">Product Name</string>
-
     <string name="action_save">Save</string>
-
-    <string name="edittext_quantity_hint">Quantity</string>
-
-    <string name="edittext_price_hint">Price</string>
-
-    <string name="edittext_supplier_name_hint">Supplier Name</string>
 
     <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">It\'s a bit lonely here...</string>
@@ -23,5 +15,44 @@
     <string name="empty_view_subtitle_text">Get started by adding a product</string>
 
     <string name="edittext_quantity_increment_hint">0</string>
+
+    <string name="detail_activity_title_new_product">New Product</string>
+
+    <string name="detail_activity_title_edit_product">Edit Product</string>
+    <string name="insert_product_failed">Product creation failed</string>
+    <string name="insert_product_successful">Product created successfully</string>
+    <string name="update_product_failed">Update failed</string>
+    <string name="update_product_successful">Product updated</string>
+
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current pet [CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this product?</string>
+
+    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_product_successful">Product deleted</string>
+
+    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_product_failed">Error with deleting product</string>
+    <string name="euro_sign">€</string>
+    <string name="list_view_unit_indicator">units</string>
+    <string name="supplier_name">Supplier Name</string>
+    <string name="quantity">Quantity:</string>
+    <string name="price">Price:</string>
+    <string name="name">Name:</string>
+    <string name="order_from_supplier">Order from Supplier</string>
+    <string name="default_increment">0</string>
+    <string name="negative_quantity_warning">Can\'t have negative quantity</string>
+    <string name="empty_fields_warning">One or more fields are empty</string>
+    <string name="email_app_unavailable">No email app available</string>
 
 </resources>

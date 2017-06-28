@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_textview_price">25sp</dimen>
+    <dimen name="list_item_default_textview_size">15sp</dimen>
+</resources>

@@ -33,4 +33,6 @@
     <dimen name="add_picture_button_width">50dp</dimen>
 
     <dimen name="add_picture_button_height">50dp</dimen>
+
+    <dimen name="default_lef_margin">16dp</dimen>
 </resources>

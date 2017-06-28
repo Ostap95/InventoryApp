@@ -21,6 +21,11 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"/>
 
+        <provider
+            android:authorities="com.ostap_kozak.inventoryapp"
+            android:name=".data.ProductProvider"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

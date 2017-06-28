@@ -22,4 +22,6 @@
     <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Get started by adding a product</string>
 
+    <string name="edittext_quantity_increment_hint">0</string>
+
 </resources>

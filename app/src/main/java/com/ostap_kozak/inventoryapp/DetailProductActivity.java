@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -99,7 +100,6 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
         } else {
             // Otherwise this is an existing product, so change app bar to say "Edit Product"
             setTitle(getString(R.string.detail_activity_title_edit_product));
-
             // Initialize a loader to read the product data from the database
             // and display the current values in the editor
             getSupportLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
@@ -143,7 +143,7 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
                 int increment = Integer.parseInt(editTextIncrementQuantity.getText().toString().trim());
                 int currentQuantity = Integer.parseInt(editTextProductQuantity.getText().toString().trim());
                 int total = currentQuantity - increment;
-                if (total > 0) editTextProductQuantity.setText(String.valueOf(currentQuantity - increment));
+                if (total >= 0) editTextProductQuantity.setText(String.valueOf(currentQuantity - increment));
                 else Toast.makeText(DetailProductActivity.this, R.string.negative_quantity_warning, Toast.LENGTH_SHORT).show();
             }
         });
@@ -176,7 +176,6 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
                 //If we are here, everything processed successfully and we have an Uri data
                 Uri mProductPhotoUri = data.getData();
                 productPictureUri = mProductPhotoUri.toString();
-                Log.d("DAMN", "Selected images " + mProductPhotoUri);
 
                 //We use Glide to import photo images
                 Glide.with(this).load(mProductPhotoUri)
@@ -334,10 +333,10 @@ public class DetailProductActivity extends AppCompatActivity implements LoaderMa
             return;
         }
 
-        // If name or supplier are empty, show toast. price, picture or quantity can be empty.
-        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(supplierString)
-                || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(priceString)
-                || TextUtils.isEmpty(pictureUriString)) {
+        // If name or supplier are empty, show toast. Picture is allowed
+        if (TextUtils.isEmpty(nameString) | TextUtils.isEmpty(supplierString)
+                | TextUtils.isEmpty(quantityString) | TextUtils.isEmpty(priceString)
+                | imageViewProductPicture.getDrawable() == null) {
             Toast.makeText(this, R.string.empty_fields_warning, Toast.LENGTH_SHORT).show();
             return;
         }
